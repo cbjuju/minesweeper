@@ -12,5 +12,8 @@ number of mines around the tile or it is empty.
 - If the user clicks on an empty tile, all the safe tiles that are adjacent to
   each other are opened.
 
+The program is divided into a backend (the logic driving the game) and a
+frontend, which interacts with the user. The frontend drives the backend.
+
 Future work : implement multithreading in assigning mines initially to the map.
 It should be an embarrassingly parallel problem.
