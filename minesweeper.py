@@ -1,5 +1,5 @@
-import gameEngine
+import backend
 
-newGame = gameEngine.minesweeperGame()
+newGame = backend.minesweeperGame()
 newGame.printGreeting()
 newGame.makeMap(2, 2, 1)

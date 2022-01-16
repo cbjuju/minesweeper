@@ -12,8 +12,11 @@ number of mines around the tile or it is empty.
 - If the user clicks on an empty tile, all the safe tiles that are adjacent to
   each other are opened.
 
-The program is divided into a backend (the logic driving the game) and a
-frontend, which interacts with the user. The frontend drives the backend.
+The file minesweeper.py is the frontend of the program. It is the GUI of the
+program and presents an interface to the user. The backend of the program is
+the file backend.py which handles all the logic of the program. The file
+minesweeper.py lets the user press a button and the file backend.py decides
+what happens when the user presses that button.
 
 Future work : implement multithreading in assigning mines initially to the map.
 It should be an embarrassingly parallel problem.
