@@ -1,10 +1,17 @@
 import backend
-import pygame as pg
+import pygame
 
 newGame = backend.minesweeperGame()
 newGame.printGreeting()
 newGame.makeMap(2, 2, 1)
 
-pg.init()
+pygame.init()
 width, height = 900, 400
-screen = pg.display.set_mode((width, height))
+screen = pygame.display.set_mode((width, height))
+
+running = True
+
+while running:
+    for event in pygame.event.get():
+        if event.type == pygame.QUIT:
+            running = False
