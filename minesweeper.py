@@ -9,6 +9,10 @@ pygame.init()
 width, height = 900, 400
 screen = pygame.display.set_mode((width, height))
 
+mineImage = pygame.image.load("images/Mine.png")
+screen.blit(mineImage, (100, 100))
+pygame.display.flip()
+
 running = True
 
 while running:
