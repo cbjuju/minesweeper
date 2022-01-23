@@ -1,9 +1,9 @@
 Python implementation of the popular game minesweeper.
 
-There is a class called minesweeperGame in the module gameEngine. An instance
-of this class is generated every time the user asks to play a game. Mouse
-button presses are accepted from the user and the game moves forward based on
-the nature of the tile that has been clicked on. The tile can have one of 3
+There is a class called minesweeperGame in the module backend. An instance of
+this class is generated every time the user asks to play a game. Mouse button
+presses are accepted from the user and the game moves forward based on the
+nature of the tile that has been clicked on. The tile can have one of 3
 important properties : it is an empty tile, or it is a number showing the
 number of mines around the tile or it is empty.
 
