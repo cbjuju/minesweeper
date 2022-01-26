@@ -22,16 +22,33 @@ screen           = pygame.display.set_mode((width, height))
 
 running = True
 
+# Fill background with a grey colour
+screen.fill((128, 128, 128))
+# Draw overlay
+for i in range(numberOfCols - 1):
+    pygame.draw.line(screen,
+            (0, 0, 0),
+            (pixelWidthOfBox * (i + 1), 0),
+            (pixelWidthOfBox * (i + 1), pixelHeightOfBox * numberOfRows))
+for i in range(numberOfCols - 1):
+    pygame.draw.line(screen,
+            (0, 0, 0),
+            (0, pixelHeightOfBox * (i + 1)),
+            (pixelWidthOfBox * numberOfCols, pixelHeightOfBox * (i + 1)))
+# Update the display to show background and overlay
+pygame.display.update()
+
 # Start game loop
 while running:
 
     # Get event from peripherals
     for event in pygame.event.get():
 
+        # Click on 'x' to close window
         if event.type == pygame.QUIT:
             running = False
 
-        # The following case is triggered on a left mouse click
+        # Left mouse click
         if event.type == pygame.MOUSEBUTTONDOWN and event.button == 1:
             xPosition = event.pos[0]
             yPosition = event.pos[1]
