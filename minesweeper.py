@@ -42,6 +42,11 @@ class minesweeper_game:
                     (0, pixel_height_of_box * (i + 1)),
                     (pixel_width_of_box * number_of_cols, 
                         pixel_height_of_box * (i + 1)))
+
+        flagImage = pygame.image.load("images/Flag.png").convert_alpha()
+        flagImage = pygame.transform.scale(flagImage,(50, 50))
+        screen.blit(flagImage, pygame.Rect(0, 0, 50, 50))
+
         # update the display to show background and overlay
         pygame.display.update()
 
