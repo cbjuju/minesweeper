@@ -19,6 +19,3 @@ class minesweeper_game():
         # Shuffle the map to randomize the placement of mines.
         from random import shuffle
         shuffle(self.the_map)
-
-        for box in self.the_map:
-            print(box)
