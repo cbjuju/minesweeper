@@ -3,58 +3,83 @@ import backend
 import pygame
 import sys
 
-# Input from command line
-numberOfRows  = int(sys.argv[1])
-numberOfCols  = int(sys.argv[2])
-numberOfMines = int(sys.argv[3])
+class minesweeper_game:
 
-# Generate the data structure simulating the minefield
-newGame = backend.minesweeperGame()
-newGame.makeMap(numberOfRows, numberOfCols, numberOfMines)
+    def __init__(self, number_of_rows, number_of_cols, number_of_mines):
+        self.number_of_rows  = number_of_rows
+        self.number_of_cols  = number_of_cols
+        self.number_of_mines = number_of_mines
 
-# Generate graphical element simulating the minefield
-pygame.init()
-pixelWidthOfBox  = 50
-pixelHeightOfBox = 50
-width            = numberOfCols * pixelWidthOfBox
-height           = numberOfRows * pixelHeightOfBox
-screen           = pygame.display.set_mode((width, height))
+    def initialize_the_backend(self):
 
-running = True
+        # Generate the data structure simulating the minefield
+        new_game = backend.minesweeper_game(
+                self.number_of_rows, 
+                self.number_of_cols,
+                self.number_of_mines)
 
-# Fill background with a grey colour
-screen.fill((128, 128, 128))
-# Draw overlay
-for i in range(numberOfCols - 1):
-    pygame.draw.line(screen,
-            (0, 0, 0),
-            (pixelWidthOfBox * (i + 1), 0),
-            (pixelWidthOfBox * (i + 1), pixelHeightOfBox * numberOfRows))
-for i in range(numberOfCols - 1):
-    pygame.draw.line(screen,
-            (0, 0, 0),
-            (0, pixelHeightOfBox * (i + 1)),
-            (pixelWidthOfBox * numberOfCols, pixelHeightOfBox * (i + 1)))
-# Update the display to show background and overlay
-pygame.display.update()
+    def initialize_the_frontend(self):
+        # generate graphical element simulating the minefield
+        pygame.init()
+        pixel_width_of_box  = 50
+        pixel_height_of_box = 50
+        width               = number_of_cols * pixel_width_of_box
+        height              = number_of_rows * pixel_height_of_box
+        screen              = pygame.display.set_mode((width, height))
 
-# Start game loop
-while running:
+        # fill background with a grey colour
+        screen.fill((128, 128, 128))
+        # draw overlay
+        for i in range(number_of_cols - 1):
+            pygame.draw.line(screen,
+                    (0, 0, 0),
+                    (pixel_width_of_box * (i + 1), 0),
+                    (pixel_width_of_box * (i + 1), pixel_height_of_box *
+                        number_of_rows))
+        for i in range(number_of_cols - 1):
+            pygame.draw.line(screen,
+                    (0, 0, 0),
+                    (0, pixel_height_of_box * (i + 1)),
+                    (pixel_width_of_box * number_of_cols, 
+                        pixel_height_of_box * (i + 1)))
+        # update the display to show background and overlay
+        pygame.display.update()
 
-    # Get event from peripherals
-    for event in pygame.event.get():
+    def start_game(self):
+        # Start game loop
+        running = True
 
-        # Click on 'x' to close window
-        if event.type == pygame.QUIT:
-            running = False
+        while running:
 
-        # Left mouse click
-        if event.type == pygame.MOUSEBUTTONDOWN and event.button == 1:
-            xPosition = event.pos[0]
-            yPosition = event.pos[1]
+            # Get event from peripherals
+            for event in pygame.event.get():
 
-            # Figure out which box was clicked
-            colNumber = xPosition // pixelWidthOfBox
-            rowNumber = yPosition // pixelHeightOfBox
+                # Click on 'x' to close window
+                if event.type == pygame.QUIT:
+                    running = False
 
-            print(f"row number = {rowNumber} col number = {colNumber}")
+                # Left mouse click
+                if event.type == pygame.MOUSEBUTTONDOWN and event.button == 1:
+                    x_position = event.pos[0]
+                    y_position = event.pos[1]
+
+                    # Figure out which box was clicked
+                    col_number = x_position // pixel_width_of_box
+                    row_number = y_position // pixel_height_of_box
+
+                    print(f"row number = {row_number} col number = {col_number}")
+
+    def initialize(self):
+        self.initialize_the_backend()
+        self.initialize_the_frontend()
+
+if __name__ == "__main__":
+
+    number_of_rows  = int(sys.argv[1])
+    number_of_cols  = int(sys.argv[2])
+    number_of_mines = int(sys.argv[3])
+
+    new_game = minesweeper_game(number_of_rows, number_of_cols, number_of_mines)
+    new_game.initialize_the_backend()
+    new_game.initialize_the_frontend()
+    new_game.start_game()
