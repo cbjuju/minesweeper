@@ -6,9 +6,11 @@ import sys
 class minesweeper_game:
 
     def __init__(self, number_of_rows, number_of_cols, number_of_mines):
-        self.number_of_rows  = number_of_rows
-        self.number_of_cols  = number_of_cols
-        self.number_of_mines = number_of_mines
+        self.number_of_rows      = number_of_rows
+        self.number_of_cols      = number_of_cols
+        self.number_of_mines     = number_of_mines
+        self.pixel_width_of_box  = 50
+        self.pixel_height_of_box = 50
 
     def initialize_the_backend(self):
 
@@ -21,10 +23,8 @@ class minesweeper_game:
     def initialize_the_frontend(self):
         # generate graphical element simulating the minefield
         pygame.init()
-        pixel_width_of_box  = 50
-        pixel_height_of_box = 50
-        width               = number_of_cols * pixel_width_of_box
-        height              = number_of_rows * pixel_height_of_box
+        width               = number_of_cols * self.pixel_width_of_box
+        height              = number_of_rows * self.pixel_height_of_box
         screen              = pygame.display.set_mode((width, height))
 
         # fill background with a grey colour
@@ -33,21 +33,22 @@ class minesweeper_game:
         for i in range(number_of_cols - 1):
             pygame.draw.line(screen,
                     (0, 0, 0),
-                    (pixel_width_of_box * (i + 1), 0),
-                    (pixel_width_of_box * (i + 1), pixel_height_of_box *
+                    (self.pixel_width_of_box * (i + 1), 0),
+                    (self.pixel_width_of_box * (i + 1), self.pixel_height_of_box *
                         number_of_rows))
         for i in range(number_of_cols - 1):
             pygame.draw.line(screen,
                     (0, 0, 0),
-                    (0, pixel_height_of_box * (i + 1)),
-                    (pixel_width_of_box * number_of_cols, 
-                        pixel_height_of_box * (i + 1)))
+                    (0, self.pixel_height_of_box * (i + 1)),
+                    (self.pixel_width_of_box * number_of_cols, 
+                        self.pixel_height_of_box * (i + 1)))
 
         flagImage = pygame.image.load("images/Flag.png").convert_alpha()
         flagImage = pygame.transform.scale(flagImage,(50, 50))
         screen.blit(flagImage, pygame.Rect(0, 0, 50, 50))
+        screen.blit(flagImage, pygame.Rect(50, 0, 50, 50))
 
-        # update the display to show background and overlay
+        # update the display to show overlay
         pygame.display.update()
 
     def start_game(self):
@@ -69,8 +70,8 @@ class minesweeper_game:
                     y_position = event.pos[1]
 
                     # Figure out which box was clicked
-                    col_number = x_position // pixel_width_of_box
-                    row_number = y_position // pixel_height_of_box
+                    col_number = x_position // self.pixel_width_of_box
+                    row_number = y_position // self.pixel_height_of_box
 
                     print(f"row number = {row_number} col number = {col_number}")
 
