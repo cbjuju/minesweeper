@@ -2,6 +2,9 @@ class minesweeper_game():
 
     def __init__(self, number_of_rows, number_of_cols, number_of_mines):
 
+        self.number_of_cols = number_of_cols
+        self.number_of_rows = number_of_rows
+
         # For the individual boxes on the screen, xposition and yposition are
         # the x and y coordinates of the top left hand corner of the box.
         box = {'has_mine':False,
@@ -27,3 +30,9 @@ class minesweeper_game():
         for n, box in enumerate(self.the_map):
             box['xposition'] = n % number_of_rows
             box['yposition'] = n // number_of_cols
+
+    def process_click(self, col_number, row_number):
+
+        box_number = row_number * self.number_of_cols + col_number
+
+        box_clicked = self.the_map[box_number]

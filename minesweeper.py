@@ -1,5 +1,3 @@
-import tkinter
-import pyautogui
 import time
 import backend
 import pygame
@@ -20,6 +18,7 @@ class minesweeper_game:
         height      = number_of_rows * self.pixel_height_of_box
         self.screen = pygame.display.set_mode((width, height))
 
+        # Load images
         self.exploded_box_image = pygame.image \
             .load("images/minesweeper_tiles/exploded_box.jpg") \
             .convert_alpha()
@@ -68,6 +67,7 @@ class minesweeper_game:
             .load("images/minesweeper_tiles/eight.jpg") \
             .convert_alpha()
 
+        # Change image sizes so that they fit into one box on the minefield
         self.exploded_box_image = pygame.transform.scale(self.exploded_box_image,
                 (self.pixel_width_of_box, self.pixel_height_of_box))
 
@@ -140,17 +140,6 @@ class minesweeper_game:
 
             self.screen.blit(self.covered_box_image, rectangle)
 
-        #         screen.blit(mine_image, rectangle)
-        #     if box['has_mine']:
-        #         xposition = box['xposition'] * self.pixel_width_of_box
-        #         yposition = box['yposition'] * self.pixel_height_of_box
-        #         rectangle = pygame.Rect(xposition, 
-        #                 yposition,
-        #                 self.pixel_width_of_box,
-        #                 self.pixel_height_of_box)
-
-        #         screen.blit(mine_image, rectangle)
-        
         # update the display to show overlay
         pygame.display.update()
 
@@ -167,8 +156,8 @@ class minesweeper_game:
                 if event.type == pygame.QUIT:
                     running = False
 
-                # Left mouse click
-                if event.type == pygame.MOUSEBUTTONDOWN and event.button == 1:
+                # Mouse click
+                if event.type == pygame.MOUSEBUTTONDOWN:
                     x_position = event.pos[0]
                     y_position = event.pos[1]
 
@@ -176,6 +165,7 @@ class minesweeper_game:
                     col_number = x_position // self.pixel_width_of_box
                     row_number = y_position // self.pixel_height_of_box
 
+                    self.new_game.process_click(col_number, row_number)
                     # box_number = row_number * number_of_cols + col_number
 
     def initialize(self):
