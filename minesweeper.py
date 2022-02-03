@@ -105,14 +105,16 @@ class minesweeper_game:
 
     def initialize_the_backend(self):
 
-        self.game_backend = backend.minesweeper_backend(self.number_of_rows, self.number_of_cols, self.number_of_mines)
+        self.game_backend = backend.minesweeper_backend(self.number_of_rows,
+                                                        self.number_of_cols,
+                                                        self.number_of_mines)
 
     def initialize_the_frontend(self):
 
         # fill background with a grey colour
         self.screen.fill((128, 128, 128))
 
-        # draw overlay
+        # draw overlay : vertical lines
         for i in range(number_of_cols - 1):
             pygame.draw.line(self.screen,
                     (0, 0, 0),
@@ -120,7 +122,8 @@ class minesweeper_game:
                     (self.pixel_width_of_box * (i + 1), self.pixel_height_of_box *
                         number_of_rows))
 
-        for i in range(number_of_cols - 1):
+        # draw overlay : horizontal lines
+        for i in range(number_of_rows - 1):
             pygame.draw.line(self.screen,
                     (0, 0, 0),
                     (0, self.pixel_height_of_box * (i + 1)),
@@ -165,7 +168,7 @@ class minesweeper_game:
                     col_number = x_position // self.pixel_width_of_box
                     row_number = y_position // self.pixel_height_of_box
 
-                    new_game.process_click(col_number, row_number)
+                    self.game_backend.process_click(col_number, row_number)
                     # box_number = row_number * number_of_cols + col_number
 
     def initialize(self):
@@ -185,4 +188,4 @@ if __name__ == "__main__":
     new_game = minesweeper_game(number_of_rows, number_of_cols, number_of_mines)
     new_game.initialize_the_backend()
     new_game.initialize_the_frontend()
-    # new_game.start_game()
+    new_game.start_game()

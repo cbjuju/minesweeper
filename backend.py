@@ -30,8 +30,9 @@ class minesweeper_backend:
         from random import shuffle
         shuffle(self.the_map)
 
+        # Assign box positions
         for n, box in enumerate(self.the_map):
-            box['xposition'] = n % number_of_rows
+            box['xposition'] = n % number_of_cols
             box['yposition'] = n // number_of_cols
 
     def process_click(self, col_number, row_number):
