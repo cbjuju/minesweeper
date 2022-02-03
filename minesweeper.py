@@ -140,7 +140,7 @@ class minesweeper_game:
                                     self.pixel_width_of_box,
                                     self.pixel_height_of_box)
 
-            self.screen.blit(self.covered_box_image, rectangle)
+            # self.screen.blit(self.covered_box_image, rectangle)
 
         # update the display to show overlay
         pygame.display.update()

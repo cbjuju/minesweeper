@@ -9,7 +9,8 @@ class minesweeper_backend:
         # the x and y coordinates of the top left hand corner of the box.
         box = {'has_mine':False,
                 'is_number':False,
-                'is_covered':True,
+                'number':0, # Only accessed if is_number is True
+                'is_covered':False,
                 'is_exploded':True,
                 'is_flagged':False,
                 'is_empty':True,
@@ -35,13 +36,44 @@ class minesweeper_backend:
             box['xposition'] = n % number_of_cols
             box['yposition'] = n // number_of_cols
 
+        # Assign numbers to each box if there are numbers
+        for box in self.the_map:
+            possible_neighbours = [
+                    (box['xposition'] - 1 , box['yposition'] - 1),
+                    (box['xposition']     , box['yposition'] - 1),
+                    (box['xposition'] + 1 , box['yposition'] - 1),
+                    (box['xposition'] - 1 , box['yposition']),
+                    (box['xposition'] + 1 , box['yposition']),
+                    (box['xposition'] - 1 , box['yposition'] + 1),
+                    (box['xposition']     , box['yposition'] + 1),
+                    (box['xposition'] + 1 , box['yposition'] + 1),
+                    ]
+
+            actual_neighbours = [
+                    neighbour for neighbour in possible_neighbours if
+                    neighbour[0] >= 0 and neighbour[0] < number_of_cols and
+                    neighbour[1] >= 0 and neighbour[1] < number_of_rows
+                    ]
+
+            actual_neighbours_box_numbers = [
+                    neighbour[1] * number_of_cols + neighbour[0] for
+                    neighbour in actual_neighbours
+                    ]
+
+            number_of_mines_around_the_box = 0
+            
+            for number in actual_neighbours_box_numbers:
+                if self.the_map[number]['has_mine']:
+                    number_of_mines_around_the_box += 1
+
+            if number_of_mines_around_the_box > 0:
+                box['number'] = number_of_mines_around_the_box
+
     def process_click(self, col_number, row_number):
 
         box_number = row_number * self.number_of_cols + col_number
 
         box_clicked = self.the_map[box_number]
-
-        print(box_clicked)
 
         if box_clicked['is_number']: pass
         if box_clicked['is_covered']: pass
