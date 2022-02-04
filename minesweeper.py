@@ -1,4 +1,6 @@
 import backend
+import os
+os.environ['PYGAME_HIDE_SUPPORT_PROMPT'] = "hide"
 import pygame
 import sys
 
@@ -20,51 +22,51 @@ class minesweeper_game:
         # Load images
         self.exploded_box_image = pygame.image \
             .load("images/minesweeper_tiles/exploded_box.jpg") \
-            .convert_alpha()
+            .convert()
 
         self.covered_box_image = pygame.image \
             .load("images/minesweeper_tiles/covered_box.jpg") \
-            .convert_alpha()
+            .convert()
 
         self.empty_box_image = pygame.image \
             .load("images/minesweeper_tiles/empty_box.jpg") \
-            .convert_alpha()
+            .convert()
 
         self.flagged_box_image = pygame.image \
             .load("images/minesweeper_tiles/flagged_box.jpg") \
-            .convert_alpha()
+            .convert()
 
         self.one_image = pygame.image \
             .load("images/minesweeper_tiles/one.jpg") \
-            .convert_alpha()
+            .convert()
 
         self.two_image = pygame.image \
             .load("images/minesweeper_tiles/two.jpg") \
-            .convert_alpha()
+            .convert()
 
         self.three_image = pygame.image \
             .load("images/minesweeper_tiles/three.jpg") \
-            .convert_alpha()
+            .convert()
 
         self.four_image = pygame.image \
             .load("images/minesweeper_tiles/four.jpg") \
-            .convert_alpha()
+            .convert()
 
         self.five_image = pygame.image \
             .load("images/minesweeper_tiles/five.jpg") \
-            .convert_alpha()
+            .convert()
 
         self.six_image = pygame.image \
             .load("images/minesweeper_tiles/six.jpg") \
-            .convert_alpha()
+            .convert()
 
         self.seven_image = pygame.image \
             .load("images/minesweeper_tiles/seven.jpg") \
-            .convert_alpha()
+            .convert()
 
         self.eight_image = pygame.image \
             .load("images/minesweeper_tiles/eight.jpg") \
-            .convert_alpha()
+            .convert()
 
         # Scale images so that they fit into one box on the minefield
         self.exploded_box_image = pygame.transform.scale(self.exploded_box_image,
@@ -192,7 +194,9 @@ class minesweeper_game:
                     col_number = x_position // self.pixel_width_of_box
                     row_number = y_position // self.pixel_height_of_box
 
+                    # Process the click
                     self.game_backend.process_click(col_number, row_number, event.button)
+                    # Update the screen
                     self.draw_map()
 
     def initialize(self):
