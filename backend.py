@@ -38,6 +38,20 @@ class minesweeper_backend:
 
         # Assign numbers to each box if there are numbers
         for box in self.the_map:
+
+            actual_neighbours_box_numbers = self.find_neighbours(box)
+
+            number_of_mines_around_the_box = 0
+
+            for number in actual_neighbours_box_numbers:
+                if self.the_map[number]['has_mine']:
+                    number_of_mines_around_the_box += 1
+
+            if number_of_mines_around_the_box > 0 and not box['has_mine']:
+                box['is_number'] = True
+                box['number']    = number_of_mines_around_the_box
+
+    def find_neighbours(self, box):
             possible_neighbours = [
                     (box['xposition'] - 1 , box['yposition'] - 1),
                     (box['xposition']     , box['yposition'] - 1),
@@ -51,24 +65,16 @@ class minesweeper_backend:
 
             actual_neighbours = [
                     neighbour for neighbour in possible_neighbours if
-                    neighbour[0] >= 0 and neighbour[0] < number_of_cols and
-                    neighbour[1] >= 0 and neighbour[1] < number_of_rows
+                    neighbour[0] >= 0 and neighbour[0] < self.number_of_cols and
+                    neighbour[1] >= 0 and neighbour[1] < self.number_of_rows
                     ]
 
             actual_neighbours_box_numbers = [
-                    neighbour[1] * number_of_cols + neighbour[0] for
+                    neighbour[1] * self.number_of_cols + neighbour[0] for
                     neighbour in actual_neighbours
                     ]
 
-            number_of_mines_around_the_box = 0
-
-            for number in actual_neighbours_box_numbers:
-                if self.the_map[number]['has_mine']:
-                    number_of_mines_around_the_box += 1
-
-            if number_of_mines_around_the_box > 0 and not box['has_mine']:
-                box['is_number'] = True
-                box['number']    = number_of_mines_around_the_box
+            return actual_neighbours_box_numbers
 
     def process_click(self, col_number, row_number):
 
