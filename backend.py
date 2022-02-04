@@ -10,7 +10,7 @@ class minesweeper_backend:
         box = {'has_mine':False,
                 'is_number':False,
                 'number':0, # Only accessed if is_number is True
-                'is_covered':False,
+                'is_covered':True,
                 'is_exploded':True,
                 'is_flagged':False,
                 'is_empty':True,
@@ -76,14 +76,19 @@ class minesweeper_backend:
 
             return actual_neighbours_box_numbers
 
-    def process_click(self, col_number, row_number):
+    def process_click(self, col_number, row_number, mouse_button):
+
+        # mouse_button == 1 corresponds to left mouse button
+        # mouse_button == 3 corresponds to right mouse button
 
         box_number = row_number * self.number_of_cols + col_number
 
         box_clicked = self.the_map[box_number]
 
-        if box_clicked['is_number']: pass
-        if box_clicked['is_covered']: pass
-        if box_clicked['is_exploded']: pass
-        if box_clicked['is_flagged']: pass
-        if box_clicked['is_empty']: pass
+        box_clicked['is_covered'] = False
+
+        # if box_clicked['is_number']: pass
+        # if box_clicked['is_covered']: pass
+        # if box_clicked['has_mine']: pass
+        # if box_clicked['is_flagged']: pass
+        # if box_clicked['is_empty']: pass

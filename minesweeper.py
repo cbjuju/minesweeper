@@ -131,16 +131,16 @@ class minesweeper_game:
                                     self.pixel_width_of_box,
                                     self.pixel_height_of_box)
 
-            if box['has_mine']:
-                self.screen.blit(self.exploded_box_image, rectangle)
-
-            if box['is_number']:
-                number_of_mines = box['number']
-                self.screen.blit(self.number_images[number_of_mines - 1], rectangle)
-
-            # if box['is_covered']:
-            if not box['has_mine']:
+            # if not box['has_mine']:
+            if box['is_covered']:
                 self.screen.blit(self.covered_box_image, rectangle)
+            else:
+                if box['has_mine']:
+                    self.screen.blit(self.exploded_box_image, rectangle)
+
+                if box['is_number']:
+                    number_of_mines = box['number']
+                    self.screen.blit(self.number_images[number_of_mines - 1], rectangle)
 
         pygame.display.update()
 
@@ -192,7 +192,8 @@ class minesweeper_game:
                     col_number = x_position // self.pixel_width_of_box
                     row_number = y_position // self.pixel_height_of_box
 
-                    self.game_backend.process_click(col_number, row_number)
+                    self.game_backend.process_click(col_number, row_number, event.button)
+                    self.draw_map()
 
     def initialize(self):
         self.initialize_the_backend()
