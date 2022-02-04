@@ -123,6 +123,8 @@ class minesweeper_game:
                                                         self.number_of_mines)
 
     def draw_map(self):
+        # fill background with a grey colour
+        self.screen.fill((128, 128, 128))
 
         # Draw initial box images over the overlay
         # draw overlay : vertical lines
@@ -163,13 +165,6 @@ class minesweeper_game:
 
         pygame.display.update()
 
-    def initialize_the_frontend(self):
-
-        # fill background with a grey colour
-        self.screen.fill((128, 128, 128))
-
-        self.draw_map()
-
     def start_game(self):
         # Start game loop
         running = True
@@ -197,10 +192,6 @@ class minesweeper_game:
                     # Update the screen
                     self.draw_map()
 
-    def initialize(self):
-        self.initialize_the_backend()
-        self.initialize_the_frontend()
-
 if __name__ == "__main__":
 
     if len(sys.argv) < 4:
@@ -213,5 +204,5 @@ if __name__ == "__main__":
 
     new_game = minesweeper_game(number_of_rows, number_of_cols, number_of_mines)
     new_game.initialize_the_backend()
-    new_game.initialize_the_frontend()
+    new_game.draw_map()
     new_game.start_game()
