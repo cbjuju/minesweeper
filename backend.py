@@ -61,7 +61,7 @@ class minesweeper_backend:
                     ]
 
             number_of_mines_around_the_box = 0
-            
+
             for number in actual_neighbours_box_numbers:
                 if self.the_map[number]['has_mine']:
                     number_of_mines_around_the_box += 1

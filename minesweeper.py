@@ -109,6 +109,21 @@ class minesweeper_game:
                                                         self.number_of_cols,
                                                         self.number_of_mines)
 
+    def draw_map(self):
+        # Draw initial box images over the overlay
+        for box in self.game_backend.the_map:
+            xposition = box['xposition'] * self.pixel_width_of_box
+            yposition = box['yposition'] * self.pixel_height_of_box
+
+            rectangle = pygame.Rect(xposition, 
+                                    yposition,
+                                    self.pixel_width_of_box,
+                                    self.pixel_height_of_box)
+
+            self.screen.blit(self.covered_box_image, rectangle)
+
+        pygame.display.update()
+
     def initialize_the_frontend(self):
 
         # fill background with a grey colour
@@ -130,21 +145,10 @@ class minesweeper_game:
                     (self.pixel_width_of_box * number_of_cols, 
                         self.pixel_height_of_box * (i + 1)))
 
-        # Draw initial box images over the overlay
-        for box in self.game_backend.the_map:
-            xposition = box['xposition'] * self.pixel_width_of_box
-            yposition = box['yposition'] * self.pixel_height_of_box
-
-            rectangle = pygame.Rect(xposition, 
-                                    yposition,
-                                    self.pixel_width_of_box,
-                                    self.pixel_height_of_box)
-
-            # self.screen.blit(self.covered_box_image, rectangle)
-
         # update the display to show overlay
         pygame.display.update()
-        pass
+
+        self.draw_map()
 
     def start_game(self):
         # Start game loop
