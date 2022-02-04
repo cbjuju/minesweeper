@@ -4,6 +4,10 @@ class minesweeper_backend:
 
         self.number_of_cols = number_of_cols
         self.number_of_rows = number_of_rows
+        self.number_of_mines_left = number_of_mines
+
+        # self.state can have one of three string values : running, won, lost
+        self.state = "running"
 
         # For the individual boxes on the screen, xposition and yposition are
         # the x and y coordinates of the top left hand corner of the box.
@@ -78,17 +82,20 @@ class minesweeper_backend:
 
     def process_click(self, col_number, row_number, mouse_button):
 
-        # mouse_button == 1 corresponds to left mouse button
-        # mouse_button == 3 corresponds to right mouse button
-
         box_number = row_number * self.number_of_cols + col_number
 
         box_clicked = self.the_map[box_number]
 
-        box_clicked['is_covered'] = False
+        if mouse_button == 1: # left click
+            # if box_clicked['is_number']: pass
+            box_clicked['is_covered'] = False
+            if box_clicked['has_mine']: 
+                self.state = 'lost'
+            if self.number_of_mines_left == 0:
+                self.state = 'won'
+            # if box_clicked['is_flagged']: pass
+            # if box_clicked['is_empty']: pass
+        if mouse_button == 3: # right click
+            box_clicked['is_flagged'] = True
 
-        # if box_clicked['is_number']: pass
-        # if box_clicked['is_covered']: pass
-        # if box_clicked['has_mine']: pass
-        # if box_clicked['is_flagged']: pass
-        # if box_clicked['is_empty']: pass
+        return self.state

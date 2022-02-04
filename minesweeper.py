@@ -15,9 +15,9 @@ class minesweeper_game:
 
         # Initialize the graphical element simulating the minefield
         pygame.init()
-        width       = number_of_cols * self.pixel_width_of_box
-        height      = number_of_rows * self.pixel_height_of_box
-        self.screen = pygame.display.set_mode((width, height))
+        self.width  = number_of_cols * self.pixel_width_of_box
+        self.height = number_of_rows * self.pixel_height_of_box
+        self.screen = pygame.display.set_mode((self.width, self.height))
 
         # Load images
         self.exploded_box_image = pygame.image \
@@ -67,6 +67,10 @@ class minesweeper_game:
         self.eight_image = pygame.image \
             .load("images/minesweeper_tiles/eight.jpg") \
             .convert()
+
+        self.dark_overlay = pygame.image \
+            .load("images/dark_overlay.png") \
+            .convert_alpha()
 
         # Scale images so that they fit into one box on the minefield
         self.exploded_box_image = pygame.transform.scale(self.exploded_box_image,
@@ -126,7 +130,25 @@ class minesweeper_game:
         # fill background with a grey colour
         self.screen.fill((128, 128, 128))
 
-        # Draw initial box images over the overlay
+        for box in self.game_backend.the_map:
+            xposition = box['xposition'] * self.pixel_width_of_box
+            yposition = box['yposition'] * self.pixel_height_of_box
+
+            rectangle = pygame.Rect(xposition, 
+                                    yposition,
+                                    self.pixel_width_of_box,
+                                    self.pixel_height_of_box)
+
+            if box['has_mine']:
+                self.screen.blit(self.exploded_box_image, rectangle)
+            if box['is_number']:
+                number_of_mines = box['number']
+                self.screen.blit(self.number_images[number_of_mines - 1], rectangle)
+            if box['is_covered']:
+                self.screen.blit(self.covered_box_image, rectangle)
+            if box['is_flagged']:
+                self.screen.blit(self.flagged_box_image, rectangle)
+
         # draw overlay : vertical lines
         for i in range(number_of_cols - 1):
             pygame.draw.line(self.screen,
@@ -143,40 +165,18 @@ class minesweeper_game:
                     (self.pixel_width_of_box * number_of_cols, 
                         self.pixel_height_of_box * (i + 1)))
 
-        for box in self.game_backend.the_map:
-            xposition = box['xposition'] * self.pixel_width_of_box
-            yposition = box['yposition'] * self.pixel_height_of_box
-
-            rectangle = pygame.Rect(xposition, 
-                                    yposition,
-                                    self.pixel_width_of_box,
-                                    self.pixel_height_of_box)
-
-            # if not box['has_mine']:
-            if box['is_covered']:
-                self.screen.blit(self.covered_box_image, rectangle)
-            else:
-                if box['has_mine']:
-                    self.screen.blit(self.exploded_box_image, rectangle)
-
-                if box['is_number']:
-                    number_of_mines = box['number']
-                    self.screen.blit(self.number_images[number_of_mines - 1], rectangle)
-
         pygame.display.update()
 
     def start_game(self):
-        # Start game loop
-        running = True
 
-        while running:
+        while self.game_backend.state == "running":
 
             # Get event from peripherals
             for event in pygame.event.get():
 
                 # Click on 'x' to close window
                 if event.type == pygame.QUIT:
-                    running = False
+                    exit()
 
                 # Mouse click
                 if event.type == pygame.MOUSEBUTTONDOWN:
@@ -188,9 +188,16 @@ class minesweeper_game:
                     row_number = y_position // self.pixel_height_of_box
 
                     # Process the click
-                    self.game_backend.process_click(col_number, row_number, event.button)
+                    self.game_backend.process_click(
+                                            col_number, 
+                                            row_number, 
+                                            event.button)
                     # Update the screen
                     self.draw_map()
+
+            if self.game_backend.state == "won": pass
+            if self.game_backend.state == "lost":
+                print ("You lost")
 
 if __name__ == "__main__":
 
