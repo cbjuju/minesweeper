@@ -66,8 +66,9 @@ class minesweeper_backend:
                 if self.the_map[number]['has_mine']:
                     number_of_mines_around_the_box += 1
 
-            if number_of_mines_around_the_box > 0:
-                box['number'] = number_of_mines_around_the_box
+            if number_of_mines_around_the_box > 0 and not box['has_mine']:
+                box['is_number'] = True
+                box['number']    = number_of_mines_around_the_box
 
     def process_click(self, col_number, row_number):
 
