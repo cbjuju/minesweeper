@@ -3,6 +3,7 @@ import os
 os.environ['PYGAME_HIDE_SUPPORT_PROMPT'] = "hide"
 import pygame
 import sys
+import time
 
 class minesweeper_game:
 
@@ -200,18 +201,30 @@ class minesweeper_game:
 
             if self.game_backend.state == "won":
                 print ("You won")
+                self.screen.blit(self.dark_overlay, 
+                        pygame.Rect(0, 0, self.height, self.width))
+                pygame.display.update()
+                time.sleep(2)
             if self.game_backend.state == "lost":
                 print ("You lost")
+                self.screen.blit(self.dark_overlay, 
+                        pygame.Rect(0, 0, self.height, self.width))
+                pygame.display.update()
+                time.sleep(2)
 
 if __name__ == "__main__":
 
-    if len(sys.argv) < 4:
-        print ("Too few arguments")
-        exit()
+    # if len(sys.argv) < 4:
+    #     print ("Too few arguments")
+    #     exit()
 
-    number_of_rows  = int(sys.argv[1])
-    number_of_cols  = int(sys.argv[2])
-    number_of_mines = int(sys.argv[3])
+    # number_of_rows  = int(sys.argv[1])
+    # number_of_cols  = int(sys.argv[2])
+    # number_of_mines = int(sys.argv[3])
+
+    number_of_rows  = 10
+    number_of_cols  = 10
+    number_of_mines = 20
 
     new_game = minesweeper_game(number_of_rows, number_of_cols, number_of_mines)
     new_game.initialize_the_backend()
