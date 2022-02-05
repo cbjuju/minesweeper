@@ -239,7 +239,7 @@ if __name__ == "__main__":
 
     number_of_rows  = 10
     number_of_cols  = 10
-    number_of_mines = 20
+    number_of_mines = 10
 
     new_game = minesweeper_game(number_of_rows, number_of_cols, number_of_mines)
     new_game.initialize_the_backend()

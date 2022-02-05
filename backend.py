@@ -60,7 +60,13 @@ class minesweeper_backend:
                 box['is_number'] = True
                 box['number']    = number_of_mines_around_the_box
 
+            for box in self.the_map:
+                if box['has_mine'] or box['is_number']:
+                    box['is_empty'] = False
+
     def find_neighbours(self, box):
+            """ Returns a list of integers that are the indices of the
+            neighbouring boxes in self.the_map """
             possible_neighbours = [
                     (box['xposition'] - 1 , box['yposition'] - 1),
                     (box['xposition']     , box['yposition'] - 1),
@@ -95,6 +101,9 @@ class minesweeper_backend:
 
             box_clicked['is_covered'] = False
 
+            if box_clicked['is_empty']:
+                self.clear_safe_neighbours_of(box_clicked)
+
             if box_clicked['has_mine']: self.state = 'lost'
 
         if mouse_button == 3: # right click
@@ -116,3 +125,14 @@ class minesweeper_backend:
 
         if all_mines_flagged and other_boxes_uncovered:
             self.state = "won"
+
+    def clear_safe_neighbours_of(self, box):
+
+        neighbouring_boxes = self.find_neighbours(box)
+
+        for neighbour in neighbouring_boxes:
+            box = self.the_map[neighbour]
+
+            if box['is_covered'] and box['is_empty']:
+                box['is_covered'] = False
+                self.clear_safe_neighbours_of(box)
