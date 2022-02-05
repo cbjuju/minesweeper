@@ -133,6 +133,8 @@ class minesweeper_backend:
         for neighbour in neighbouring_boxes:
             box = self.the_map[neighbour]
 
+            if box['is_number']: box['is_covered'] = False
+
             if box['is_covered'] and box['is_empty']:
                 box['is_covered'] = False
                 self.clear_safe_neighbours_of(box)
