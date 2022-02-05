@@ -192,6 +192,9 @@ class minesweeper_game:
                                             col_number, 
                                             row_number, 
                                             event.button)
+
+                    self.game_backend.check_if_player_won()
+
                     # Update the screen
                     self.draw_map()
 

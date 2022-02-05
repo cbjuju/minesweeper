@@ -4,7 +4,6 @@ class minesweeper_backend:
 
         self.number_of_cols = number_of_cols
         self.number_of_rows = number_of_rows
-        self.number_of_mines_left = number_of_mines
 
         # self.state can have one of three string values : running, won, lost
         self.state = "running"
@@ -35,13 +34,14 @@ class minesweeper_backend:
         from random import shuffle
         shuffle(self.the_map)
 
-        # Assign box positions
-        for n, box in enumerate(self.the_map):
-            box['xposition'] = n % number_of_cols
-            box['yposition'] = n // number_of_cols
+        self.boxes_that_have_mines    = []
+        self.boxes_that_have_no_mines = []
 
         # Assign numbers to each box if there are numbers
         for box in self.the_map:
+
+            if box['has_mine']: self.boxes_that_have_mines.append(box)
+            else: self.boxes_that_have_no_mines.append(box)
 
             actual_neighbours_box_numbers = self.find_neighbours(box)
 
@@ -87,15 +87,28 @@ class minesweeper_backend:
         box_clicked = self.the_map[box_number]
 
         if mouse_button == 1: # left click
-            # if box_clicked['is_number']: pass
-            box_clicked['is_covered'] = False
-            if box_clicked['has_mine']: 
-                self.state = 'lost'
-            if self.number_of_mines_left == 0:
-                self.state = 'won'
-            # if box_clicked['is_flagged']: pass
-            # if box_clicked['is_empty']: pass
-        if mouse_button == 3: # right click
-            box_clicked['is_flagged'] = True
 
-        return self.state
+            box_clicked['is_covered'] = False
+
+            if box_clicked['has_mine']: self.state = 'lost'
+
+        if mouse_button == 3: # right click
+            if box_clicked['is_flagged']: box_clicked['is_flagged'] = False
+            else: box_clicked['is_flagged'] = True
+
+    def check_if_player_won(self):
+        """ The player wins if every mine if flagged and every other box
+        uncovered. """
+        pass
+#         all_mines_flagged     = True
+
+#         for box in self.boxes_that_have_mines:
+#             all_mines_flagged = all_mines_flagged and box['is_flagged']
+
+#         other_boxes_uncovered = True
+
+#         for box in self.boxes_that_have_no_mines:
+#             other_boxes_uncovered = other_boxes_uncovered and not box['is_covered']
+
+#         if all_mines_flagged and other_boxes_uncovered:
+#             self.state = "won"
