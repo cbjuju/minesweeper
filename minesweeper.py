@@ -198,7 +198,8 @@ class minesweeper_game:
                     # Update the screen
                     self.draw_map()
 
-            if self.game_backend.state == "won": pass
+            if self.game_backend.state == "won":
+                print ("You won")
             if self.game_backend.state == "lost":
                 print ("You lost")
 

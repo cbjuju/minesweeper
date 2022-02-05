@@ -12,7 +12,7 @@ class minesweeper_backend:
         # the x and y coordinates of the top left hand corner of the box.
         box = {'has_mine':False,
                 'is_number':False,
-                'number':0, # Only accessed if is_number is True
+                'number':0, # Only read if is_number is True
                 'is_covered':True,
                 'is_exploded':True,
                 'is_flagged':False,
@@ -33,6 +33,11 @@ class minesweeper_backend:
         # Shuffle the map to randomize the placement of mines.
         from random import shuffle
         shuffle(self.the_map)
+
+        for n, box in enumerate(self.the_map):
+
+            box['xposition'] = n % self.number_of_cols
+            box['yposition'] = n // self.number_of_cols
 
         self.boxes_that_have_mines    = []
         self.boxes_that_have_no_mines = []
@@ -99,16 +104,15 @@ class minesweeper_backend:
     def check_if_player_won(self):
         """ The player wins if every mine if flagged and every other box
         uncovered. """
-        pass
-#         all_mines_flagged     = True
+        all_mines_flagged = True
 
-#         for box in self.boxes_that_have_mines:
-#             all_mines_flagged = all_mines_flagged and box['is_flagged']
+        for box in self.boxes_that_have_mines:
+            all_mines_flagged = all_mines_flagged and box['is_flagged']
 
-#         other_boxes_uncovered = True
+        other_boxes_uncovered = True
 
-#         for box in self.boxes_that_have_no_mines:
-#             other_boxes_uncovered = other_boxes_uncovered and not box['is_covered']
+        for box in self.boxes_that_have_no_mines:
+            other_boxes_uncovered = other_boxes_uncovered and not box['is_covered']
 
-#         if all_mines_flagged and other_boxes_uncovered:
-#             self.state = "won"
+        if all_mines_flagged and other_boxes_uncovered:
+            self.state = "won"
