@@ -166,6 +166,20 @@ class minesweeper_game:
                     (self.pixel_width_of_box * number_of_cols, 
                         self.pixel_height_of_box * (i + 1)))
 
+        # cover screen with a dark overlay on the map to signal end of game
+        if self.game_backend.state == "won":
+            print ("You won")
+            self.screen.blit(self.dark_overlay, 
+                                pygame.Rect(0, 0, self.height, self.width))
+            self.screen.blit(pygame.font.SysFont("Comic Sans MS",100).render("You win!",1,(0,255,0)),pygame.Rect(200,300,100,50))
+            pygame.display.update()
+        if self.game_backend.state == "lost":
+            print ("You lost")
+            self.screen.blit(self.dark_overlay, 
+                    pygame.Rect(0, 0, self.height, self.width))
+            self.screen.blit(pygame.font.SysFont("Comic Sans MS",100).render("You win!",1,(0,255,0)),pygame.Rect(200,300,100,50))
+            pygame.display.update()
+
         pygame.display.update()
 
     def start_game(self):
@@ -199,18 +213,19 @@ class minesweeper_game:
                     # Update the screen
                     self.draw_map()
 
-            if self.game_backend.state == "won":
-                print ("You won")
-                self.screen.blit(self.dark_overlay, 
-                        pygame.Rect(0, 0, self.height, self.width))
-                pygame.display.update()
-                time.sleep(2)
-            if self.game_backend.state == "lost":
-                print ("You lost")
-                self.screen.blit(self.dark_overlay, 
-                        pygame.Rect(0, 0, self.height, self.width))
-                pygame.display.update()
-                time.sleep(2)
+        # Once game loop is broken, decide if player wants to keep playing
+        waiting_for_player_decision = True
+
+        while waiting_for_player_decision:
+
+            for event in pygame.event.get():
+
+                if event.type == pygame.KEYDOWN:
+                    waiting_for_player_decision = False
+                    if event.key == pygame.K_r:
+                        return True
+                    if not event.key == pygame.K_r:
+                        return False
 
 if __name__ == "__main__":
 
@@ -229,4 +244,16 @@ if __name__ == "__main__":
     new_game = minesweeper_game(number_of_rows, number_of_cols, number_of_mines)
     new_game.initialize_the_backend()
     new_game.draw_map()
-    new_game.start_game()
+
+    play_another_game = new_game.start_game()
+
+    while play_another_game:
+        number_of_rows  = 10
+        number_of_cols  = 10
+        number_of_mines = 20
+
+        new_game = minesweeper_game(number_of_rows, number_of_cols, number_of_mines)
+        new_game.initialize_the_backend()
+        new_game.draw_map()
+
+        play_another_game = new_game.start_game()
