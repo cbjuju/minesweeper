@@ -1,4 +1,4 @@
-Python implementation of the popular game minesweeper.
+# Python implementation of the popular game minesweeper.
 
 There is a class called minesweeperGame in the module backend. An instance of
 this class is generated every time the user asks to play a game. Mouse button
